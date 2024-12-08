@@ -45,13 +45,13 @@ CustomCheckbox.displayName = "CustomCheckbox"; // コンポーネントの表示
 const defaultQuestions: Pick<Question, "text" | "weight">[] = [
   { text: "今日、日の光を浴びましたか？", weight: 3 },
   { text: "今日、学校に行きましたか？", weight: 3 },
-  { text: "今日、勉強または作業をしましたか？", weight: 2 },
-  { text: "今日、メッセージの確認/返信をしましたか？", weight: 1 },
-  { text: "今日、家事をしましたか？", weight: 2 },
-  { text: "今日、自炊をしましたか？", weight: 2 },
-  { text: "今日、メイクまたは髪セットをしましたか？", weight: 2 },
-  { text: "今日、お風呂に入りましたか？", weight: 2 },
-  { text: "今日、ストレッチや筋トレをしましたか？", weight: 2 },
+  { text: "今日、勉強や作業をしましたか？", weight: 3 },
+  { text: "今日、メッセージの確認/返信をしましたか？", weight: 3 },
+  { text: "今日、家事をしましたか？", weight: 3 },
+  { text: "今日、自炊をしましたか？", weight: 3 },
+  { text: "今日、メイクやヘアセットをしましたか？", weight: 3 },
+  { text: "今日、お風呂に入りましたか？", weight: 3 },
+  { text: "今日、ストレッチや筋トレをしましたか？", weight: 3 },
 ];
 
 /**
