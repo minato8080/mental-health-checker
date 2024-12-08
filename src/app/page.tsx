@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import React from "react";
 
+import { useLiveQuery } from "dexie-react-hooks";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Trash2, PlusCircle, Heart } from "lucide-react";
 
@@ -16,6 +17,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { db } from "@/global/dexieDB";
 import { cn } from "@/lib/utils";
 
 /**
@@ -76,6 +78,21 @@ export default function MentalHealthChecker() {
   const [allQuestionsAnswered, setAllQuestionsAnswered] = useState(false);
   const [showResult, setShowResult] = useState(false);
 
+  useLiveQuery(() => {
+    db.question.toArray((result) => {
+      if (result.length > 0) {
+        const res = result.map((q, index) => ({
+          id: index + 1, // 各質問に一意のIDを付与
+          text: q.text,
+          weight: q.weight,
+          answer: null, // 初期状態では回答はnull
+        }));
+        setQuestions(res);
+        setEditedQuestions(res);
+      }
+    });
+  }, []);
+
   // 質問が全て回答されたかどうかをチェックするuseEffectフック
   useEffect(() => {
     setAllQuestionsAnswered(questions.every((q) => q.answer !== null));
@@ -104,7 +121,8 @@ export default function MentalHealthChecker() {
   };
 
   // 質問を削除するハンドラ
-  const handleDeleteQuestion = (id: number) => {
+  const handleDeleteQuestion = async (id: number) => {
+    await db.question.delete(id);
     setQuestions(questions.filter((q) => q.id !== id));
     setEditedQuestions(editedQuestions.filter((q) => q.id !== id));
   };
@@ -142,8 +160,11 @@ export default function MentalHealthChecker() {
   };
 
   // 編集モードを切り替えるハンドラ
-  const toggleEditMode = () => {
+  const toggleEditMode = async () => {
     if (isEditMode) {
+      await db.question.bulkPut(
+        editedQuestions.map(({ answer, ...rest }) => rest)
+      );
       setQuestions(editedQuestions);
     } else {
       setEditedQuestions(questions);
@@ -210,7 +231,11 @@ export default function MentalHealthChecker() {
                             handleEditQuestion(question.id, "weight", value)
                           }
                         />
-                        <ConfirmDialog title="質問を削除しますか？" ok="はい" cancel="いいえ">
+                        <ConfirmDialog
+                          title="質問を削除しますか？"
+                          ok="はい"
+                          cancel="いいえ"
+                        >
                           <Button
                             onClick={() => handleDeleteQuestion(question.id)}
                             className="w-18 h-6 ml-auto bg-gray-300 hover:bg-gray-400 text-gray-800"

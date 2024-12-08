@@ -6,7 +6,7 @@ import type { Question } from "@/types/types";
  * Dexieデータベースのインスタンスを作成
  */
 const db = new Dexie("mental-health-checker") as Dexie & {
-  vocabulary: EntityTable<
+  question: EntityTable<
     Omit<Question, "answer">,
     "id" // 主キー
   >;
@@ -14,7 +14,7 @@ const db = new Dexie("mental-health-checker") as Dexie & {
 
 // スキーマの宣言
 db.version(1).stores({
-  vocabulary: "++id, text, weight",
+  question: "++id, text, weight",
 });
 
 export { db };
