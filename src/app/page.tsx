@@ -15,7 +15,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { db } from "@/global/dexieDB";
 import { cn } from "@/lib/utils";
@@ -183,7 +182,7 @@ export default function MentalHealthChecker() {
       <div className="min-h-screen bg-gradient-to-r from-green-100 to-blue-100 flex items-center justify-center">
         <Card className="w-full h-screen max-w-4xl mx-auto bg-card/80 backdrop-blur-sm shadow-xl rounded-none flex flex-col bg-white">
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text">
+            <CardTitle className="text-2xl font-bold text-center bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text">
               心の健康チェッカー
             </CardTitle>
             <Button
@@ -210,7 +209,7 @@ export default function MentalHealthChecker() {
                 >
                   {isEditMode ? (
                     <div className="space-y-4">
-                      <Input
+                      <textarea
                         value={question.text}
                         onChange={(e) =>
                           handleEditQuestion(
