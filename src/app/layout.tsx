@@ -15,6 +15,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // サービスワーカーの登録
+  if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service_worker.js').then((registration) => {
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    }).catch((err) => {
+      console.error('ServiceWorker registration failed: ', err);
+    });
+  }
   return (
     <html lang="en">
       <head>
